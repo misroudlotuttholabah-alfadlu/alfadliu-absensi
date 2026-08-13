@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AL-FADLU ABSENSI</title>
+<style>
+:root{--p:#14532d;--p2:#166534;--bg:#f4f7f5;--card:#fff;--text:#173022;--muted:#66756b;--danger:#b91c1c;--border:#dce5df}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#14532d,#166534)}
+.login-card{width:min(420px,100%);background:white;border-radius:24px;padding:28px;box-shadow:0 20px 60px #0003;text-align:center}.logo{width:78px;height:78px;object-fit:contain;border-radius:18px;background:#eef5ef;margin:auto auto 12px}.login-card h1{margin:5px 0}.login-card p{color:var(--muted)}
+.field{margin:12px 0;text-align:left}.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.btn{padding:11px 15px;border-radius:12px;background:var(--p);color:white;font-weight:bold}.btn.secondary{background:#e8f0eb;color:var(--p)}.btn.danger{background:#b91c1c}.btn.small{padding:8px 11px;font-size:13px}
+.app{min-height:100vh}.top{height:64px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:5}.brand{display:flex;gap:10px;align-items:center;font-weight:800}.brand img{width:38px;height:38px;object-fit:contain}.layout{display:flex;min-height:calc(100vh - 64px)}aside{width:245px;background:#123c25;color:#fff;padding:15px;position:fixed;top:64px;bottom:0;overflow:auto}.nav button{display:block;width:100%;text-align:left;background:transparent;color:#dcebe1;padding:12px;border-radius:10px;margin:4px 0}.nav button.active,.nav button:hover{background:#ffffff18;color:white}.content{margin-left:245px;width:calc(100% - 245px);padding:20px;max-width:1400px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px}.stat b{font-size:28px;display:block;margin-top:7px}.muted{color:var(--muted)}.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;margin-top:16px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px}.toolbar .left,.toolbar .right{display:flex;gap:8px;flex-wrap:wrap}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:11px;border-bottom:1px solid var(--border);text-align:left;font-size:14px}th{background:#f6f9f7}.badge{padding:5px 9px;border-radius:99px;font-size:12px;background:#e8f0eb;color:#14532d}.camera{width:100%;max-width:520px;border-radius:16px;background:#111;aspect-ratio:4/3;object-fit:cover}.scan-box{display:grid;place-items:center;min-height:250px;border:2px dashed #b8c9bd;border-radius:16px;padding:15px}.modal{position:fixed;inset:0;background:#0007;display:grid;place-items:center;padding:20px;z-index:20}.modal-card{width:min(600px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;padding:20px}.toast{position:fixed;right:18px;bottom:18px;background:#173022;color:#fff;padding:12px 16px;border-radius:12px;z-index:30}.empty{text-align:center;padding:30px;color:var(--muted)}
+@media(max-width:900px){aside{width:72px;padding:10px}.nav button{font-size:0;text-align:center}.nav button:first-letter{font-size:20px}.content{margin-left:72px;width:calc(100% - 72px)}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.top{height:58px}.layout{min-height:calc(100vh - 58px)}aside{top:58px;width:58px}.content{margin-left:58px;width:calc(100% - 58px);padding:12px}.grid{grid-template-columns:1fr 1fr}.stat{padding:13px}.stat b{font-size:22px}.hide-mobile{display:none}.top .brand span{display:none}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <div class="login-card">
+    <img id="loginLogo" class="logo" src="" alt="Logo">
+    <h1>AL-FADLU ABSENSI</h1><p>Sistem Absensi MI – MTs – MA</p>
+    <div class="field"><label>Username</label><input id="username" value="admin" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input id="password" type="password" value="admin123" autocomplete="current-password"></div>
+    <button class="btn" style="width:100%" onclick="login()">Masuk</button>
+    <small class="muted">Demo HTML • data tersimpan di browser</small>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+<header class="top"><div class="brand"><img id="topLogo" src="" alt=""><span>AL-FADLU ABSENSI</span></div><div><span id="userBadge" class="badge">Admin</span> <button class="btn small danger" onclick="logout()">Keluar</button></div></header>
+<div class="layout">
+<aside><nav id="nav" class="nav">
+<button onclick="showPage('dashboard')">🏠 Dashboard</button>
+<button onclick="showPage('gerbang')">📷 Absen Gerbang</button>
+<button onclick="showPage('pembelajaran')">🕐 Jam 1–4</button>
+<button onclick="showPage('siswa')">👨‍🎓 Data Siswa</button>
+<button onclick="showPage('guru')">👨‍🏫 Data Guru</button>
+<button onclick="showPage('rekap')">📊 Rekap</button>
+<button onclick="showPage('pengaturan')">⚙️ Pengaturan</button>
+</nav></aside>
+<main id="content" class="content"></main>
+</div></div>
+<div id="modal" class="modal hidden"><div class="modal-card" id="modalCard"></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script>
+const KEY='alfadlu_absensi_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
+ settings:{school:'AL-FADLU',logo:'',year:'2026/2027'},
+ users:[{username:'admin',password:'admin123',role:'Super Admin'}],
+ students:[], teachers:[], attendance:[]
+};
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function toast(t){let e=document.getElementById('toast');e.textContent=t;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),2200)}
+function login(){let u=username.value.trim(),p=password.value;if(db.users.some(x=>x.username===u&&x.password===p)){sessionStorage.setItem('alfadlu_login',u);document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');userBadge.textContent=u;showPage('dashboard')}else toast('Username atau password salah')}
+function logout(){sessionStorage.removeItem('alfadlu_login');location.reload()}
+function init(){if(db.settings.logo){loginLogo.src=db.settings.logo;topLogo.src=db.settings.logo}if(sessionStorage.getItem('alfadlu_login')){login.classList.add('hidden');app.classList.remove('hidden');userBadge.textContent=sessionStorage.getItem('alfadlu_login');showPage('dashboard')}}
+function showPage(p){document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('active'));let btn=[...document.querySelectorAll('#nav button')].find(b=>b.getAttribute('onclick')?.includes("'"+p+"'"));if(btn)btn.classList.add('active');({dashboard,gerbang,pembelajaran,siswa,guru,rekap,pengaturan}[p])()}
+function dashboard(){content.innerHTML=`<h2>Dashboard</h2><p class="muted">Selamat datang di AL-FADLU ABSENSI.</p><div class="grid">
+<div class="stat">👨‍🎓 Siswa<b>${db.students.length}</b></div><div class="stat">👨‍🏫 Guru<b>${db.teachers.length}</b></div><div class="stat">📋 Absensi Hari Ini<b>${todayCount()}</b></div><div class="stat">🏫 Lembaga<b>MI–MTs–MA</b></div></div>
+<div class="card"><h3>Menu cepat</h3><div class="toolbar"><div class="left"><button class="btn" onclick="showPage('gerbang')">📷 Absen Gerbang</button><button class="btn secondary" onclick="showPage('pembelajaran')">🕐 Absensi Jam 1–4</button></div></div><p class="muted">Tips: gunakan Chrome/Firefox melalui HTTPS agar kamera HP dapat digunakan.</p></div>`}
+function today(){return new Date().toISOString().slice(0,10)}
+function todayCount(){return db.attendance.filter(a=>a.date===today()).length}
+function gerbang(){content.innerHTML=`<h2>📷 Absen Barcode Gerbang</h2><div class="card"><p class="muted">Masukkan ID/barcode siswa atau gunakan kamera. Untuk scanner kamera, browser membutuhkan HTTPS.</p>
+<div class="scan-box"><video id="video" class="camera" autoplay playsinline></video><div id="scanStatus" class="muted">Kamera belum dijalankan.</div></div>
+<div class="toolbar"><div class="left"><button class="btn" onclick="startCamera()">▶ Mulai Kamera</button><button class="btn secondary" onclick="stopCamera()">■ Berhenti</button></div></div>
+<div class="field"><label>Barcode / NIS</label><input id="barcodeInput" placeholder="Contoh: S001" onkeydown="if(event.key==='Enter')scanStudent(this.value)"></div></div>
+<div class="card"><h3>Absensi Gerbang Hari Ini</h3>${attendanceTable(db.attendance.filter(a=>a.date===today()&&a.type==='Gerbang'))}</div>`}
+let stream=null;
+async function startCamera(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});video.srcObject=stream;scanStatus.textContent='Kamera aktif. Scanner barcode otomatis dapat ditambahkan dengan library barcode.'}catch(e){toast('Kamera tidak bisa diakses. Pastikan HTTPS dan izin kamera.');}}
+function stopCamera(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}if(video)video.srcObject=null}
+function scanStudent(code){code=code.trim();let s=db.students.find(x=>x.barcode===code||x.nis===code||x.id===code);if(!s)return toast('Siswa tidak ditemukan');addAttendance(s,'Gerbang','Gerbang');barcodeInput.value='';toast('Absensi '+s.name+' berhasil')}
+function addAttendance(s,jam,pelajaran){db.attendance.push({id:Date.now(),date:today(),time:new Date().toLocaleTimeString('id-ID'),studentId:s.id,student:s.name,nis:s.nis,kelas:s.kelas,lembaga:s.lembaga,jam,type:jam==='Gerbang'?'Gerbang':'Pembelajaran',pelajaran,status:'Hadir'});save()}
+function pembelajaran(){content.innerHTML=`<h2>🕐 Absensi Pembelajaran</h2><div class="card"><div class="grid" style="grid-template-columns:repeat(4,1fr)"><button class="btn" onclick="absenJam(1)">Jam 1</button><button class="btn" onclick="absenJam(2)">Jam 2</button><button class="btn" onclick="absenJam(3)">Jam 3</button><button class="btn" onclick="absenJam(4)">Jam 4</button></div><div class="field"><label>Pelajaran</label><input id="mapel" placeholder="Contoh: Bahasa Arab"></div><div class="field"><label>Barcode/NIS siswa</label><input id="pb" placeholder="Scan/ketik barcode lalu Enter" onkeydown="if(event.key==='Enter')absenPemb(this.value)"></div><div id="hasilJam" class="card">Pilih jam kemudian masukkan barcode siswa.</div></div>`}
+let currentJam=1;function absenJam(j){currentJam=j;toast('Jam '+j+' dipilih');}
+function absenPemb(code){let s=db.students.find(x=>x.barcode===code||x.nis===code||x.id===code);if(!s)return toast('Siswa tidak ditemukan');addAttendance(s,currentJam,mapel.value||'-');toast('Hadir: '+s.name+' | Jam '+currentJam);hasilJam.innerHTML='<b>'+esc(s.name)+'</b> tercatat hadir pada Jam '+currentJam+' — '+esc(mapel.value||'-')}
+function siswa(){content.innerHTML=`<h2>👨‍🎓 Data Siswa</h2><div class="card"><div class="toolbar"><div class="left"><button class="btn" onclick="studentForm()">+ Tambah Siswa</button><button class="btn secondary" onclick="importHelp('siswa')">📥 Template CSV</button></div><div class="right"><input id="searchS" placeholder="Cari..." oninput="renderStudents()"></div></div><div id="studentTable">${studentTable()}</div></div>`}
+function studentTable(){let q=(document.getElementById('searchS')?.value||'').toLowerCase();let a=db.students.filter(s=>(s.name+s.nis+s.kelas+s.lembaga).toLowerCase().includes(q));if(!a.length)return '<div class="empty">Belum ada data siswa.</div>';return `<div class="table-wrap"><table><tr><th>Barcode</th><th>NIS</th><th>Nama</th><th>Kelas</th><th>Lembaga</th><th>Aksi</th></tr>${a.map(s=>`<tr><td>${esc(s.barcode)}</td><td>${esc(s.nis)}</td><td>${esc(s.name)}</td><td>${esc(s.kelas)}</td><td>${esc(s.lembaga)}</td><td><button class="btn small danger" onclick="delStudent('${s.id}')">Hapus</button></td></tr>`).join('')}</table></div>`}
+function renderStudents(){studentTable&&(document.getElementById('studentTable').innerHTML=studentTable())}
+function studentForm(){modalCard.innerHTML=`<h3>Tambah Siswa</h3><div class="field"><label>Barcode</label><input id="fbar" value="S${String(db.students.length+1).padStart(4,'0')}"></div><div class="field"><label>NIS</label><input id="fnis"></div><div class="field"><label>Nama</label><input id="fname"></div><div class="field"><label>Kelas</label><input id="fkelas"></div><div class="field"><label>Lembaga</label><select id="flemb"><option>MI</option><option>MTs</option><option>MA</option></select></div><div class="toolbar"><button class="btn" onclick="saveStudent()">Simpan</button><button class="btn secondary" onclick="closeModal()">Batal</button></div>`;modal.classList.remove('hidden')}
+function saveStudent(){if(!fname.value||!fnis.value)return toast('Nama dan NIS wajib diisi');db.students.push({id:'st'+Date.now(),barcode:fbar.value,nis:fnis.value,name:fname.value,kelas:fkelas.value,lembaga:flemb.value});save();closeModal();siswa();toast('Siswa ditambahkan')}
+function delStudent(id){if(confirm('Hapus siswa?')){db.students=db.students.filter(x=>x.id!==id);save();siswa()}}
+function guru(){content.innerHTML=`<h2>👨‍🏫 Data Guru</h2><div class="card"><div class="toolbar"><div class="left"><button class="btn" onclick="teacherForm()">+ Tambah Guru</button><button class="btn secondary" onclick="importHelp('guru')">📥 Template CSV</button></div></div>${teacherTable()}</div>`}
+function teacherTable(){if(!db.teachers.length)return '<div class="empty">Belum ada data guru.</div>';return `<div class="table-wrap"><table><tr><th>NIP</th><th>Nama</th><th>Lembaga</th><th>Mapel</th><th>Aksi</th></tr>${db.teachers.map(t=>`<tr><td>${esc(t.nip)}</td><td>${esc(t.name)}</td><td>${esc(t.lembaga)}</td><td>${esc(t.mapel)}</td><td><button class="btn small danger" onclick="delTeacher('${t.id}')">Hapus</button></td></tr>`).join('')}</table></div>`}
+function teacherForm(){modalCard.innerHTML=`<h3>Tambah Guru</h3><div class="field"><label>NIP</label><input id="tnip"></div><div class="field"><label>Nama</label><input id="tname"></div><div class="field"><label>Lembaga</label><select id="tlemb"><option>MI</option><option>MTs</option><option>MA</option></select></div><div class="field"><label>Mata Pelajaran</label><input id="tmapel"></div><div class="toolbar"><button class="btn" onclick="saveTeacher()">Simpan</button><button class="btn secondary" onclick="closeModal()">Batal</button></div>`;modal.classList.remove('hidden')}
+function saveTeacher(){if(!tname.value)return toast('Nama wajib diisi');db.teachers.push({id:'g'+Date.now(),nip:tnip.value,name:tname.value,lembaga:tlemb.value,mapel:tmapel.value});save();closeModal();guru();toast('Guru ditambahkan')}
+function delTeacher(id){if(confirm('Hapus guru?')){db.teachers=db.teachers.filter(x=>x.id!==id);save();guru()}}
+function attendanceTable(a){if(!a.length)return '<div class="empty">Belum ada absensi.</div>';return `<div class="table-wrap"><table><tr><th>Waktu</th><th>NIS</th><th>Siswa</th><th>Kelas</th><th>Jam</th><th>Pelajaran</th><th>Status</th></tr>${a.slice().reverse().map(x=>`<tr><td>${esc(x.time)}</td><td>${esc(x.nis)}</td><td>${esc(x.student)}</td><td>${esc(x.kelas)}</td><td>${esc(x.jam)}</td><td>${esc(x.pelajaran)}</td><td><span class="badge">${esc(x.status)}</span></td></tr>`).join('')}</table></div>`}
+function rekap(){content.innerHTML=`<h2>📊 Rekap Absensi</h2><div class="card"><div class="toolbar"><div class="left"><input type="date" id="rd" value="${today()}" onchange="renderRekap()"><select id="rt" onchange="renderRekap()"><option value="">Semua</option><option>Gerbang</option><option>Pembelajaran</option></select></div><div class="right"><button class="btn" onclick="exportCSV()">⬇ CSV</button><button class="btn secondary" onclick="window.print()">🖨 Cetak/PDF</button></div></div><div id="rekapTable"></div></div>`;renderRekap()}
+function renderRekap(){let d=rd.value,t=rt.value;let a=db.attendance.filter(x=>(!d||x.date===d)&&(!t||x.type===t));rekapTable.innerHTML=attendanceTable(a)}
+function exportCSV(){let a=db.attendance.map(x=>[x.date,x.time,x.nis,x.student,x.kelas,x.lembaga,x.type,x.jam,x.pelajaran,x.status]);let csv='Tanggal,Waktu,NIS,Nama,Kelas,Lembaga,Jenis,Jam,Pelajaran,Status\n'+a.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n');let blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),u=URL.createObjectURL(blob),ael=document.createElement('a');ael.href=u;ael.download='rekap-absensi.csv';ael.click();URL.revokeObjectURL(u)}
+function pengaturan(){content.innerHTML=`<h2>⚙️ Pengaturan</h2><div class="card"><div class="field"><label>Nama lembaga/aplikasi</label><input id="school" value="${esc(db.settings.school)}"></div><div class="field"><label>Tahun Ajaran</label><input id="year" value="${esc(db.settings.year)}"></div><div class="field"><label>Logo</label><input type="file" id="logoFile" accept="image/*" onchange="readLogo(this)"></div><button class="btn" onclick="saveSettings()">Simpan Pengaturan</button></div>
+<div class="card"><h3>💾 Backup & Restore</h3><p class="muted">Backup menyimpan seluruh data di browser ini.</p><button class="btn" onclick="backup()">Backup JSON</button> <label class="btn secondary">Restore JSON<input type="file" accept=".json" style="display:none" onchange="restore(this)"></label><button class="btn danger" onclick="resetAll()">Reset Semua Data</button></div>`}
+let newLogo='';
+function readLogo(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=()=>newLogo=r.result;r.readAsDataURL(f)}
+function saveSettings(){db.settings.school=school.value;db.settings.year=year.value;if(newLogo)db.settings.logo=newLogo;save();loginLogo.src=db.settings.logo;topLogo.src=db.settings.logo;toast('Pengaturan tersimpan')}
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='backup-al-fadlu.json';a.click();URL.revokeObjectURL(u)}
+function restore(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();location.reload()}catch(e){toast('File backup tidak valid')}};r.readAsText(f)}
+function resetAll(){if(confirm('Semua data akan dihapus. Lanjut?')){localStorage.removeItem(KEY);location.reload()}}
+function importHelp(type){let csv=type==='siswa'?'barcode,nis,nama,kelas,lembaga\\nS0001,1001,Ahmad,7A,MTs':'nip,nama,lembaga,mapel\\n19800101,Ahmad,MTs,Bahasa Arab';let blob=new Blob([csv],{type:'text/csv'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='template_'+type+'.csv';a.click();URL.revokeObjectURL(u)}
+function closeModal(){modal.classList.add('hidden')}
+init();
+</script>
+</body></html>
